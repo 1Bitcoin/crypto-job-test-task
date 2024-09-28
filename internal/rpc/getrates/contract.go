@@ -1,5 +1,5 @@
 //go:generate mockgen -package $GOPACKAGE -source $GOFILE -destination contract_mock.go
-package get_rates
+package getrates
 
 import (
 	"context"

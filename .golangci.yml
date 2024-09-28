@@ -1,0 +1,7 @@
+linters:
+  enable:
+    - ineffassign
+    - staticcheck
+    - gocritic
+    - misspell
+    - revive
