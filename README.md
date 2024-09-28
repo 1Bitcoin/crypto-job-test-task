@@ -1,7 +1,14 @@
-### Тестовое задание
-https://gist.github.com/nanaban/27e482f75357e53c2014beab6cea498b
+### Запуск приложения с дефолтными параметрами
 
-### Флаги командной строки
+```bash
+git clone ...
+```
+
+```bash
+docker-compose up -d
+```
+
+### Запуск приложения с передачей флагов
 
 Вы также можете передать параметры подключения через флаги:
 
@@ -12,7 +19,15 @@ https://gist.github.com/nanaban/27e482f75357e53c2014beab6cea498b
 - `-name` - имя базы данных
 - `-sslmode` - режим SSL
 
-#### Пример запуска приложения с флагами:
 
 ```bash
-go run cmd/service/main.go -host=localhost -port=5432 -user=myuser -password=mypassword -name=postgres -sslmode=disable
+git clone ...
+```
+
+```bash
+docker-compose run --rm app ./app -host=db -port=5432 -user=myuser -password=mypassword -name=postgres -sslmode=disable
+```
+
+### Тестовое задание
+
+https://gist.github.com/nanaban/27e482f75357e53c2014beab6cea498b
