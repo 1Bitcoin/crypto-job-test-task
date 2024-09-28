@@ -5,10 +5,12 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
-	rates "testTask/grpc/rates"
+	healthcheckServer "testTask/grpc/healthcheck"
+	ratesServer "testTask/grpc/rates"
+	"testTask/internal/grpc/getrates"
+	"testTask/internal/grpc/healthcheck"
 	database "testTask/internal/infrastructure/database/postgres"
 	"testTask/internal/infrastructure/env"
-	"testTask/internal/rpc/getrates"
 	"testTask/internal/usecase/actual_rate_get/repository"
 	"testTask/internal/usecase/actual_rate_get/usecase"
 )
@@ -36,14 +38,15 @@ func main() {
 	rateUsecase := usecase.New(rateRepository)
 
 	s := grpc.NewServer()
-	rates.RegisterRateServiceServer(s, getrates.New(rateUsecase, sugar))
+	ratesServer.RegisterRateServiceServer(s, getrates.New(rateUsecase, sugar))
+	healthcheckServer.RegisterHealthcheckServiceServer(s, healthcheck.New())
 
 	lis, err := net.Listen("tcp", ":50051")
 	if err != nil {
 		sugar.Fatalf("failed to listen: %v", err)
 	}
 
-	sugar.Infow("Starting gRPC server on :50051")
+	sugar.Infow("Starting gRPC rates on :50051")
 	if err := s.Serve(lis); err != nil {
 		sugar.Fatalf("failed to serve: %v", err)
 	}
