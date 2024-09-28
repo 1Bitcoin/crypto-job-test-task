@@ -69,6 +69,7 @@ func main() {
 
 		// Gracefully stop the server
 		s.GracefulStop()
+		_ = db.Close()
 		wg.Done()
 	}()
 
