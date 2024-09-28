@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package rates;
+
+option go_package = ".";
+
+service RateService {
+  rpc GetRates (RateRequest) returns (RateResponse);
+}
+
+message RateRequest {
+  string market = 1;  // marketID
+}
+
+message RateResponse {
+  string market = 1;
+  double ask = 2;
+  double bid = 3;
+}
