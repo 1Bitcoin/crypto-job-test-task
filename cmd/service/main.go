@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
+	"net/http"
 	"os"
 	"os/signal"
 	"sync"
@@ -17,6 +18,7 @@ import (
 	"testTask/internal/infrastructure/env"
 	"testTask/internal/usecase/actual_rate_get/repository"
 	"testTask/internal/usecase/actual_rate_get/usecase"
+	"time"
 )
 
 func main() {
@@ -39,7 +41,15 @@ func main() {
 
 	// repository
 	rateRepository := repository.New(db, trmSqlx.DefaultCtxGetter)
-	rateUsecase := usecase.New(rateRepository)
+
+	// usecase
+	rateTimeout := 3 * time.Second
+	rateUsecase := usecase.New(
+		rateRepository,
+		&http.Client{
+			Timeout: rateTimeout,
+		},
+	)
 
 	s := grpc.NewServer()
 	ratesServer.RegisterRateServiceServer(s, getrates.New(rateUsecase, sugar))

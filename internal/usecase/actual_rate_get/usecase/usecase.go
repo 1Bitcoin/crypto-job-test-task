@@ -6,23 +6,21 @@ import (
 	"fmt"
 	"github.com/pkg/errors"
 	"net/http"
+	"testTask/internal/infrastructure/network"
 	"testTask/internal/usecase/actual_rate_get/domain"
-	"time"
 )
 
 const GarantexURL = "https://garantex.org/api/v2/depth?market="
 
 type Usecase struct {
 	rateRepository rateRepository
-	client         http.Client
+	client         network.Client
 }
 
-func New(rateRepository rateRepository) *Usecase {
+func New(rateRepository rateRepository, client network.Client) *Usecase {
 	return &Usecase{
 		rateRepository: rateRepository,
-		client: http.Client{
-			Timeout: 3 * time.Second,
-		},
+		client:         client,
 	}
 }
 
