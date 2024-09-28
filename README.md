@@ -28,6 +28,15 @@ git clone ...
 docker-compose run --rm app ./app -host=db -port=5432 -user=myuser -password=mypassword -name=postgres -sslmode=disable
 ```
 
+### Методы микросервиса
+
+Имеется два метода
+
+1) Healthcheck - без параметров
+2) GetRates - принимает в качестве параметра marketID
+Для демонстрации работы можно использовать "marketID": "usdtrub"
+
+
 ### Тестовое задание
 
 https://gist.github.com/nanaban/27e482f75357e53c2014beab6cea498b
