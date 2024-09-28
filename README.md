@@ -1,7 +1,7 @@
 ### Запуск приложения с дефолтными параметрами
 
 ```bash
-git clone ...
+git clone https://github.com/1Bitcoin/crypto-job-test-task.git
 ```
 
 ```bash
@@ -21,7 +21,7 @@ docker-compose up -d
 
 
 ```bash
-git clone ...
+git clone https://github.com/1Bitcoin/crypto-job-test-task.git
 ```
 
 ```bash
