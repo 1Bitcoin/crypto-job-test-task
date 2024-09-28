@@ -7,21 +7,21 @@ import (
 	pb "testTask/grpc/rates"
 )
 
-type RateServiceServer struct {
+type Server struct {
 	pb.UnimplementedRateServiceServer
 	Usecase usecase
 	logger  *zap.SugaredLogger
 }
 
-func New(usecase usecase, logger *zap.SugaredLogger) *RateServiceServer {
-	return &RateServiceServer{
+func New(usecase usecase, logger *zap.SugaredLogger) *Server {
+	return &Server{
 		Usecase: usecase,
 		logger:  logger,
 	}
 }
 
 // GetRates handler grpc
-func (s *RateServiceServer) GetRates(ctx context.Context, req *pb.RateRequest) (*pb.RateResponse, error) {
+func (s *Server) GetRates(ctx context.Context, req *pb.RateRequest) (*pb.RateResponse, error) {
 	if req.MarketID == "" {
 		errorMessage := "empty marketID"
 		s.logger.Errorw(errorMessage)

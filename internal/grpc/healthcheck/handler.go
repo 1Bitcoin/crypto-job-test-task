@@ -5,16 +5,16 @@ import (
 	pb "testTask/grpc/healthcheck"
 )
 
-type HealthCheckServer struct {
+type Server struct {
 	pb.UnimplementedHealthcheckServiceServer
 }
 
-func New() *HealthCheckServer {
-	return &HealthCheckServer{}
+func New() *Server {
+	return &Server{}
 }
 
 // GetRates handler grpc
-func (h *HealthCheckServer) Healthcheck(ctx context.Context, req *pb.HealthcheckRequest) (*pb.HealthcheckResponse, error) {
+func (h *Server) Healthcheck(context.Context, *pb.HealthcheckRequest) (*pb.HealthcheckResponse, error) {
 	return &pb.HealthcheckResponse{
 		Message: "health",
 	}, nil
