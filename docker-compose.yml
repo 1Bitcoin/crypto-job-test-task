@@ -29,7 +29,7 @@ services:
     depends_on:
       - db
     ports:
-      - "8080:8080"
+      - "50051:50051"
     environment:
       DATABASE_URL: postgres://myuser:mypassword@db:5432/postgres?sslmode=disable
 

@@ -1,6 +1,6 @@
 package domain
 
-type DepthResponse struct {
+type Rate struct {
 	Timestamp int64   `json:"timestamp"`
 	Asks      []Order `json:"asks"`
 	Bids      []Order `json:"bids"`

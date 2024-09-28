@@ -9,11 +9,11 @@ service RateService {
 }
 
 message RateRequest {
-  string market = 1;  // marketID
+  string marketID = 1;
 }
 
 message RateResponse {
-  string market = 1;
-  double ask = 2;
-  double bid = 3;
+  int64 timestamp = 1;
+  string ask = 2;
+  string bid = 3;
 }
