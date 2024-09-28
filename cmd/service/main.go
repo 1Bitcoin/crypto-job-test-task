@@ -5,6 +5,10 @@ import (
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"net"
+	"os"
+	"os/signal"
+	"sync"
+	"syscall"
 	healthcheckServer "testTask/grpc/healthcheck"
 	ratesServer "testTask/grpc/rates"
 	"testTask/internal/grpc/getrates"
@@ -46,8 +50,30 @@ func main() {
 		sugar.Fatalf("failed to listen: %v", err)
 	}
 
+	// Channel to listen for interrupt signals
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGINT, syscall.SIGTERM)
+
+	// Wait group to wait for cleanup
+	var wg sync.WaitGroup
+	wg.Add(1)
+
+	go func() {
+		// Wait for an interrupt signal
+		<-stop
+		sugar.Info("Shutting down server...")
+
+		// Gracefully stop the server
+		s.GracefulStop()
+		wg.Done()
+	}()
+
 	sugar.Infow("Starting gRPC rates on :50051")
 	if err := s.Serve(lis); err != nil {
 		sugar.Fatalf("failed to serve: %v", err)
 	}
+
+	// Wait for the cleanup goroutine to finish
+	wg.Wait()
+	sugar.Info("Server shut down gracefully")
 }
