@@ -11,14 +11,14 @@ RUN go mod download
 # Копируем весь код проекта
 COPY . .
 
-# Собираем исполняемый файл
-RUN go build -o main ./cmd/service/main.go
+# Собираем исполняемый файл и называем его 'app'
+RUN go build -o app ./cmd/service/main.go
 
 # Используем более легкий образ для запуска приложения
 FROM gcr.io/distroless/base
 
 # Копируем скомпилированный исполняемый файл из первого этапа
-COPY --from=builder /app/main .
+COPY --from=builder /app/app .
 
 # Указываем команду для запуска
-CMD ["/main"]
+CMD ["./app"]

@@ -11,13 +11,18 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
       - ./migrations/postgres:/migrations
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "myuser", "-d", "postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   migrate:
     image: migrate/migrate
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
       - ./migrations/postgres:/migrations
     command: [ "-path=/migrations", "-database=postgres://myuser:mypassword@db:5432/postgres?sslmode=disable", "up" ]
@@ -27,11 +32,9 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - db
+      migrate:
+        condition: service_completed_successfully
     ports:
       - "50051:50051"
-    environment:
-      DATABASE_URL: postgres://myuser:mypassword@db:5432/postgres?sslmode=disable
-
-volumes:
-  postgres_data:
+    env_file:
+      - .env

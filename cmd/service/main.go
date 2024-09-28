@@ -15,7 +15,6 @@ import (
 	"testTask/internal/grpc/getrates"
 	"testTask/internal/grpc/healthcheck"
 	database "testTask/internal/infrastructure/database/postgres"
-	"testTask/internal/infrastructure/env"
 	"testTask/internal/usecase/actual_rate_get/repository"
 	"testTask/internal/usecase/actual_rate_get/usecase"
 	"time"
@@ -28,11 +27,6 @@ func main() {
 	}(logger)
 
 	sugar := logger.Sugar()
-
-	err := env.LoadEnv()
-	if err != nil {
-		sugar.Fatalf("failed load .env file: %v", err)
-	}
 
 	db, err := database.NewPostgres()
 	if err != nil {
