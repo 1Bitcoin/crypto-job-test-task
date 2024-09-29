@@ -9,12 +9,12 @@ import (
 )
 
 func NewPostgres() (*sqlx.DB, error) {
-	dbHost := flag.String("host", env.GetEnv("DB_HOST"), "Database host")
-	dbPort := flag.String("port", env.GetEnv("DB_PORT"), "Database port")
-	dbUser := flag.String("user", env.GetEnv("DB_USER"), "Database user")
-	dbPassword := flag.String("password", env.GetEnv("DB_PASSWORD"), "Database password")
-	dbName := flag.String("name", env.GetEnv("DB_NAME"), "Database name")
-	dbSSlmode := flag.String("sslmode", env.GetEnv("DB_SSLMODE"), "SSL mode")
+	dbHost := flag.String("host", env.GetEnv("POSTGRES_HOST"), "Database host")
+	dbPort := flag.String("port", env.GetEnv("POSTGRES_PORT"), "Database port")
+	dbUser := flag.String("user", env.GetEnv("POSTGRES_USER"), "Database user")
+	dbPassword := flag.String("password", env.GetEnv("POSTGRES_PASSWORD"), "Database password")
+	dbName := flag.String("name", env.GetEnv("POSTGRES_DB"), "Database name")
+	dbSSlmode := flag.String("sslmode", env.GetEnv("POSTGRES_SSL"), "SSL mode")
 
 	flag.Parse()
 
